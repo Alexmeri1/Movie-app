@@ -1,0 +1,19 @@
+{
+  "name": "movie-app",
+  "version": "1.0.0",
+  "description": "This is a movie website that shows some titles and some images. It uses react to power its frontend.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alexmeri1/Movie-app.git"
+  },
+  "author": "Alexander Meriakri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alexmeri1/Movie-app/issues"
+  },
+  "homepage": "https://github.com/Alexmeri1/Movie-app#readme"
+}
