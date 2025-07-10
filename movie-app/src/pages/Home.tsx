@@ -1,19 +1,45 @@
 import MovieCard from "../components/MovieCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../css/Home.css";
+import { searchMovies, getPopularMovies } from "../services/api.ts";
 
 function Home() {
-  const [searchQuery, setSearchQuery] = useState("");
+  type Movie = {
+    id: number;
+    title: string;
+    overview?: string;
+    poster_path?: string;
+    // add more if needed for MovieCard
+  };
 
-  const movies = [
-    { id: 1, title: "John Wick", release_date: "2020" },
-    { id: 2, title: "Terminator", release_date: "1999" },
-    { id: 3, title: "Matrix", release_date: "1998" },
-  ];
+  const [searchQuery, setSearchQuery] = useState("");
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadPopularMovies = async () => {
+      try {
+        const popularMovies = await getPopularMovies();
+        setMovies(popularMovies);
+      } catch (err) {
+        console.log(err);
+        // @ts-ignore
+        setError("Failed to load movies");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadPopularMovies();
+  }, []);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert(searchQuery);
+    if (!searchQuery.trim()) return; //not just a bunch of spaces
+    if (loading) return;
+
+    setLoading(true)
+
     setSearchQuery("");
   };
 
@@ -33,14 +59,17 @@ function Home() {
         </button>
       </form>
 
-      <div className="movie-grid">
-        {movies.map(
-          (movie) =>
-            movie.title.toLowerCase().includes(searchQuery.toLowerCase()) && (
-              <MovieCard movie={movie} key={movie.id} />
-            )
-        )}
-      </div>
+      {error &&  <div className="error-message">{error} </div>}
+ 
+      {loading ? (
+        <div className="lading">Loading...</div>
+      ) : (
+        <div className="movies-grid">
+          {movies.map((movie) => (
+            <MovieCard movie={movie} key={movie.id} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
