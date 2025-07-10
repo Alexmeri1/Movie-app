@@ -33,12 +33,25 @@ function Home() {
     loadPopularMovies();
   }, []);
 
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!searchQuery.trim()) return; //not just a bunch of spaces
     if (loading) return;
 
-    setLoading(true)
+    setLoading(true);
+    try {
+
+      const searchResults = await searchMovies(searchQuery);
+      setMovies(searchResults);
+      setError(null);
+
+    } catch (error) {
+      console.log(error)
+        // @ts-ignore
+      setError("Failed to search movies...")
+    }finally{
+      setLoading(false)
+    }
 
     setSearchQuery("");
   };
