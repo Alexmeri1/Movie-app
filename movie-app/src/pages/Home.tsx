@@ -3,14 +3,15 @@ import { useState, useEffect } from "react";
 import "../css/Home.css";
 import { searchMovies, getPopularMovies } from "../services/api.ts";
 
-function Home() {
-  type Movie = {
+export type Movie = {
     id: number;
     title: string;
     overview?: string;
     poster_path?: string;
     // add more if needed for MovieCard
   };
+
+function Home() { 
 
   const [searchQuery, setSearchQuery] = useState("");
   const [movies, setMovies] = useState<Movie[]>([]);
