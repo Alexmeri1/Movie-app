@@ -1,9 +1,21 @@
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ensure proper sizing for single or multiple cards */
+  gap: 1.5rem;
+  justify-content: center; /* Center the grid items */
+  padding: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .movie-card {
   position: relative;
   border-radius: 8px;
   overflow: hidden;
   background-color: #1a1a1a; 
-  height: 100%;
+  width: 100%; /* Allow the card to adapt to grid column size */
+  max-width: 300px; /* Set a maximum width for better scaling */
+  height: auto; /* Adjust height dynamically */
   display: flex;
   flex-direction: column;
   cursor: pointer;

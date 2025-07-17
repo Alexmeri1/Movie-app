@@ -1,9 +1,16 @@
 import "../css/MovieCard.css";
+import { useMovieContext } from "../contexts/MovieContext";
+
 
 //@ts-ignore
 function MovieCard({ movie }) {
-  function onLike() {
-    alert("I was clicked");
+  const { addToFavorites, removeFromFavorites, isFavorite } = useMovieContext();
+  const favorite = isFavorite(movie.id);
+  
+
+  function onLike(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault()
+    favorite ? removeFromFavorites(movie.id) : addToFavorites(movie);
   }
 
   return (
@@ -11,7 +18,7 @@ function MovieCard({ movie }) {
       <div className="movie-poster">
         <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
         <div className="movie-overlay">
-          <button className="favorite-btn" onClick={onLike}>
+          <button className={`favorite-btn ${favorite ?  "active" : ""}`} onClick={onLike}>
             ❤︎
           </button>
         </div>
